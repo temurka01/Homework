@@ -1,30 +1,55 @@
 package homework_14_06_2024;
 
 public class Worker {
-    private final String name;
-    private final String lastname;
-    private final String profession;
+    private String name;
+    private String lastname;
+    private String profession;
 
     public Worker(String name, String lastname, String profession) {
-        this.name = name;
-        this.lastname = lastname;
-        this.profession = profession;
+        setName(name);
+        setLastname(lastname);
+        setProfession(profession);
     }
 
     public void goToWork() {
-        System.out.println("Рабочий: " + this.name + " " + this.lastname);
-        System.out.println("Профессия: " + this.profession);
+        System.out.println("Рабочий: " + getName() + " " + getLastname());
+        System.out.println("Профессия: " + getProfession());
     }
 
     public void goToVacation(int days) {
-        System.out.println("Рабочий " + this.name + " " + this.lastname + " уходит в отпуск на " + days);
+        System.out.print("Рабочий " + getName() + " " + getLastname() + " уходит в отпуск на " + days);
         if (days == 1) {
-            System.out.println(" день!");
+            System.out.println(" день!\n");
         } else if (days <= 4) {
-            System.out.println(" дня!");
+            System.out.println(" дня!\n");
         } else {
-            System.out.println(" дней!");
+            System.out.println(" дней!\n");
         }
-        System.out.println("Профессия рабочего: " + profession);
+        System.out.println("Профессия рабочего: " + getProfession());
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
     }
 }
