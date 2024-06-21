@@ -19,11 +19,11 @@ public class Worker {
     public void goToVacation(int days) {
         System.out.print("Рабочий " + getName() + " " + getLastname() + " уходит в отпуск на " + days);
         if (days == 1) {
-            System.out.println(" день!\n");
+            System.out.print(" день!\n");
         } else if (days <= 4) {
-            System.out.println(" дня!\n");
+            System.out.print(" дня!\n");
         } else {
-            System.out.println(" дней!\n");
+            System.out.print(" дней!\n");
         }
         System.out.println("Профессия рабочего: " + getProfession());
 
