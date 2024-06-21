@@ -11,7 +11,7 @@ public class Main {
             System.out.println("*********************************");
             workers[i].goToWork();
             System.out.println("*********************************");
-            workers[i].goToVacation(i+3);
+            workers[i].goToVacation(i + 3);
         }
     }
 }

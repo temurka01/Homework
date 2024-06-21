@@ -17,10 +17,13 @@ public class Worker {
     }
 
     public void goToVacation(int days) {
-        if (days <= 4) {
-            System.out.println("Рабочий " + this.name + " " + this.lastname + " уходит в отпуск на " + days + " дня!");
+        System.out.println("Рабочий " + this.name + " " + this.lastname + " уходит в отпуск на " + days);
+        if (days == 1) {
+            System.out.println(" день!");
+        } else if (days <= 4) {
+            System.out.println(" дня!");
         } else {
-            System.out.println("Рабочий " + this.name + " " + this.lastname + " уходит в отпуск на " + days + " дней!");
+            System.out.println(" дней!");
         }
         System.out.println("Профессия рабочего: " + profession);
     }

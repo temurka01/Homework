@@ -4,6 +4,7 @@ public class Tester extends Worker {
     public Tester(String name, String lastname) {
         super(name, lastname, "Тестировщик");
     }
+
     @Override
     public void goToWork() {
         super.goToWork();

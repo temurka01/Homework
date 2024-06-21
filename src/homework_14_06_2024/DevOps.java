@@ -1,9 +1,10 @@
 package homework_14_06_2024;
 
-public class DevOps extends Worker{
-    public DevOps(String name, String lastname){
-        super(name,lastname,"ДевОпс");
+public class DevOps extends Worker {
+    public DevOps(String name, String lastname) {
+        super(name, lastname, "ДевОпс");
     }
+
     @Override
     public void goToWork() {
         super.goToWork();
