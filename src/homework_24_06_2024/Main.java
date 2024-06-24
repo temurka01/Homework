@@ -7,13 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Television TV = new Television();
-        TV.setChannels(new Channel("Первый канал", CONST.PROGRAMS),
-                new Channel("Россия 1", CONST.PROGRAMS),
-                new Channel("ТВЦ", CONST.PROGRAMS),
-                new Channel("НТВ", CONST.PROGRAMS),
-                new Channel("5 Канал", CONST.PROGRAMS));
-        Remote remote = new Remote(TV);
+        Remote remote = new Remote(CONST.TV);
         int in;
         LocalDateTime now = LocalDateTime.now(); //В зависимости от текущего часа я выбираю одну из 8 программ
         int hour = now.getHour() / 3;
