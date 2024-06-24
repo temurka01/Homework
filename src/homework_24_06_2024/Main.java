@@ -10,11 +10,12 @@ public class Main {
         Remote remote = new Remote(CONST.TV);
         int in;
         LocalDateTime now = LocalDateTime.now(); //В зависимости от текущего часа я выбираю одну из 8 программ
-        int hour = now.getHour() / 3;
+        int hour = now.getHour();
+        int number = hour / (24 / CONST.PROGRAMS.length); // по хорошему эту секцию надо засунуть в цикл
         do {
             System.out.println("****************");
             System.out.println(remote.getTV().getChannels()[remote.getCondition()].getChannel_name());
-            System.out.println(remote.getTV().getChannels()[remote.getCondition()].getPrograms()[hour].getProgram_name());
+            System.out.println(remote.getTV().getChannels()[remote.getCondition()].getPrograms()[number].getProgram_name());
             System.out.println("****************");
             System.out.print("Введите число: ");
             in = scanner.nextInt();
