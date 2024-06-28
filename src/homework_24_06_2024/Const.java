@@ -1,6 +1,6 @@
 package homework_24_06_2024;
 
-public class CONST {
+public class Const {
     public static final Program[] PROGRAMS = {              //лень писать по 8(или больше) видов программ для каждого канала
             new Program("Программа 1"),         // поэтому одна для всех
             new Program("Программа 2"),
@@ -12,10 +12,10 @@ public class CONST {
             new Program("Программа 8")
     };
     public static final Television TV = new Television(
-            new Channel("Первый канал", CONST.PROGRAMS),
-            new Channel("Россия 1", CONST.PROGRAMS),
-            new Channel("ТВЦ", CONST.PROGRAMS),
-            new Channel("НТВ", CONST.PROGRAMS),
-            new Channel("5 Канал", CONST.PROGRAMS)
+            new Channel("Первый канал", Const.PROGRAMS),
+            new Channel("Россия 1", Const.PROGRAMS),
+            new Channel("ТВЦ", Const.PROGRAMS),
+            new Channel("НТВ", Const.PROGRAMS),
+            new Channel("5 Канал", Const.PROGRAMS)
     );
 }

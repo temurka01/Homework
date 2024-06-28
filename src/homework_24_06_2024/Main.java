@@ -18,18 +18,18 @@ public class Main {
                 "\nЛюбое другое число для выключения телевизора");
         switch (Case) {
             case 1: {
-                Remote remote = new Remote(CONST.TV);
-                remote.turn_on();
+                Remote remote = new Remote(Const.TV);
+                remote.turnOn();
                 break;
             }
             case 2: {
-                Phone_Remote phoneRemote = new Phone_Remote(CONST.TV);
-                phoneRemote.turn_on();
+                PhoneRemote phoneRemote = new PhoneRemote(Const.TV);
+                phoneRemote.turnOn();
                 break;
             }
             case 3: {
-                Child_Remote childRemote = new Child_Remote(CONST.TV);
-                childRemote.turn_on();
+                ChildRemote childRemote = new ChildRemote(Const.TV);
+                childRemote.turnOn();
                 break;
             }
         }

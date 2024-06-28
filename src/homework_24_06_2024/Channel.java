@@ -1,20 +1,20 @@
 package homework_24_06_2024;
 
 public class Channel {
-    private String channel_name;
+    private String channelName;
     private Program[] programs;
 
-    public Channel(String channel_name, Program... programs) {
-        setChannel_name(channel_name);
+    public Channel(String channelName, Program... programs) {
+        setChannelName(channelName);
         setPrograms(programs);
     }
 
-    public String getChannel_name() {
-        return channel_name;
+    public String getChannelName() {
+        return channelName;
     }
 
-    public void setChannel_name(String channel_name) {
-        this.channel_name = channel_name;
+    public void setChannelName(String channelName) {
+        this.channelName = channelName;
     }
 
     public Program[] getPrograms() {
