@@ -8,7 +8,7 @@ public class Const {
             new Program("Программа 4"),
             new Program("Программа 5"),
             new Program("Программа 6"),
-            new Program("программа 7"),
+            new Program("Программа 7"),
             new Program("Программа 8")
     };
     public static final Television TV = new Television(

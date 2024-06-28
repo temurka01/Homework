@@ -10,13 +10,13 @@ public class Main {
                 "\n2 - приложение на телефоне" +
                 "\n3 - эксплуатация ребенка");
         Scanner scanner = new Scanner(System.in);
-        short Case = scanner.nextShort();
+        short caseValue = scanner.nextShort();
         System.out.println("Числа от 1 для переключения по номерам каналов" +
                 "\n0 для переключения на следующий по порядку канал" +
                 "\n-1 для переключения на предыдущий по порядку канал" +
                 "\n-2 для переключения на предыдущий канал" +
                 "\nЛюбое другое число для выключения телевизора");
-        switch (Case) {
+        switch (caseValue) {
             case 1: {
                 Remote remote = new Remote(Const.TV);
                 remote.turnOn();
