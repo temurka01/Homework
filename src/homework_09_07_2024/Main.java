@@ -6,9 +6,9 @@ public class Main {
 
         service.create(new Human("Oleg", "Igonin", "Leopoldovich", 28));
         service.create(new Human("Ivan", "Ivanov", "Ivanovich", 18));
+        service.delete(2);
         service.create(new Human("Petr", "Petrov", "Petrovich", 28));
+
         service.upload();
-
-
     }
 }

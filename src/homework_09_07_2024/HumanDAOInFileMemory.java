@@ -25,12 +25,13 @@ public class HumanDAOInFileMemory implements IHumanDAO {
             for (int i = 0; i < memoryLenght; i++) {
                 if (humans[i] == null) {
                     idReserved[j] = i;
-                    controlSumm += i;
+                    controlSumm += i + 1;
                     j++;
                 }
             }
             while (j != memoryLenght) {
                 idReserved[j] = -1;
+
                 j++;
             }
         } catch (IOException e) {
@@ -46,7 +47,7 @@ public class HumanDAOInFileMemory implements IHumanDAO {
                 if (idReserved[i] != -1) {
                     id = idReserved[i];
                     idReserved[i] = -1;
-                    controlSumm -= id;
+                    controlSumm -= id + 1;
                     break;
                 }
             }
