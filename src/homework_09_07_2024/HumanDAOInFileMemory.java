@@ -4,7 +4,7 @@ import java.io.*;
 
 public class HumanDAOInFileMemory implements IHumanDAO {
 
-    private final static int memoryLenght = 10;
+    private final static int memoryLenght = 20;
     private static final int[] idReserved = new int[memoryLenght];
     private static int controlSumm = -memoryLenght;
     private final Human[] humans = new Human[memoryLenght];
@@ -25,7 +25,7 @@ public class HumanDAOInFileMemory implements IHumanDAO {
             for (int i = 0; i < memoryLenght; i++) {
                 if (humans[i] == null) {
                     idReserved[j] = i;
-                    controlSumm += i + 1;
+                    controlSumm += 1;
                     j++;
                 }
             }
@@ -47,7 +47,7 @@ public class HumanDAOInFileMemory implements IHumanDAO {
                 if (idReserved[i] != -1) {
                     id = idReserved[i];
                     idReserved[i] = -1;
-                    controlSumm -= id + 1;
+                    controlSumm -= 1;
                     break;
                 }
             }
