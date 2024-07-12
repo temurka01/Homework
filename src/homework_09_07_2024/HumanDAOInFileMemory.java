@@ -17,7 +17,7 @@ public class HumanDAOInFileMemory implements IHumanDAO {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] lines = line.split("/");
                 id = Integer.parseInt(lines[0]);
-                humans[id] = new Human(lines[1], lines[2], lines[3], Integer.parseInt(lines[4]));
+                humans[id] = new Human(lines[2], lines[1], lines[3], Integer.parseInt(lines[4]));
                 humans[id].setId(id);
             }
             // заполняю массив с свободными значениями id
