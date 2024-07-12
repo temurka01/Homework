@@ -1,0 +1,10 @@
+0/Igonin/Oleg/Leopoldovich/28
+1/Ivanov/Ivan/Ivanovich/18
+2/Petrov/Petr/Petrovich/28
+3/Ivanov/Ivan/Ivanovich/18
+4/Igonin/Oleg/Leopoldovich/28
+5/Ivanov/Ivan/Ivanovich/18
+6/Igonin/Oleg/Leopoldovich/28
+7/Ivanov/Ivan/Ivanovich/18
+8/Igonin/Oleg/Leopoldovich/28
+9/Ivanov/Ivan/Ivanovich/18
