@@ -1,12 +1,12 @@
 package homework_09_07_2024;
 
 import java.io.*;
+import java.util.LinkedList;
 
 public class HumanDAOInFileMemory implements IHumanDAO {
 
-    private final static int memoryLenght = 20;
-    private static final int[] idReserved = new int[memoryLenght];
-    private static int controlSumm = -memoryLenght;
+    private final static int memoryLenght = 20; //длина массива
+    private static final LinkedList<Integer> idReserved = new LinkedList<>(); //список свободных id
     private final Human[] humans = new Human[memoryLenght];
 
     public HumanDAOInFileMemory() {
@@ -14,25 +14,18 @@ public class HumanDAOInFileMemory implements IHumanDAO {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("src/homework_09_07_2024/resources/humans.txt"));
             String line;
             int id;
+            //заполняю массив с файла
             while ((line = bufferedReader.readLine()) != null) {
                 String[] lines = line.split("/");
                 id = Integer.parseInt(lines[0]);
                 humans[id] = new Human(lines[2], lines[1], lines[3], Integer.parseInt(lines[4]));
                 humans[id].setId(id);
             }
-            // заполняю массив с свободными значениями id
-            int j = 0;
+            //заполняю список свободных id
             for (int i = 0; i < memoryLenght; i++) {
-                if (humans[i] == null) {
-                    idReserved[j] = i;
-                    controlSumm += 1;
-                    j++;
+                if (humans[i] == null) { //если ячейка массива пуста записываю её id
+                    idReserved.addLast(i);
                 }
-            }
-            while (j != memoryLenght) {
-                idReserved[j] = -1;
-
-                j++;
             }
         } catch (IOException e) {
             throw new RuntimeException("IOException :C");
@@ -41,19 +34,11 @@ public class HumanDAOInFileMemory implements IHumanDAO {
 
     @Override
     public void create(Human human) {
-        if (controlSumm != -memoryLenght) {
-            int id = 0;
-            for (int i = 0; i < memoryLenght; i++) {
-                if (idReserved[i] != -1) {
-                    id = idReserved[i];
-                    idReserved[i] = -1;
-                    controlSumm -= 1;
-                    break;
-                }
-            }
-            humans[id] = human;
+        if (!idReserved.isEmpty()) { //если есть свободные id
+            int id = idReserved.removeFirst(); //берем первый из списка и сразу его удаляем
+            humans[id] = human; //записываем человека в ячейку с взятым id
             humans[id].setId(id);
-        } else {
+        } else { //иначе (свободных id не осталось)
             System.out.println("Закончилось место в памяти");
         }
     }
@@ -78,13 +63,7 @@ public class HumanDAOInFileMemory implements IHumanDAO {
     @Override
     public void delete(int id) {
         humans[id] = null;
-        for (int i = 0; i < memoryLenght; i++) {
-            if (idReserved[i] == -1) {
-                idReserved[i] = id;
-                controlSumm += id;
-                break;
-            }
-        }
+        idReserved.addLast(id);//записываем свободный id в список
     }
 
     @Override
