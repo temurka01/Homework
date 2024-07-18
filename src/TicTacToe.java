@@ -10,9 +10,16 @@ public class TicTacToe extends JComponent {
     boolean isXTurn;
 
     public TicTacToe() {
+        JFrame window = new JFrame("TicTacToe");
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        window.setSize(400,400);
+        window.setLayout(new BorderLayout());
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
         field = new int[3][3];
         initGame();
+        window.add(this);
     }
 
     public void initGame() {
