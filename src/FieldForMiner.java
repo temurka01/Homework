@@ -6,6 +6,7 @@ public class FieldForMiner {
     private final int height;
     private final int wight;
     private int notMinedCells;
+    private int minedCells;
 
     public FieldForMiner(int height, int wight) {
         this.height = height;
@@ -18,7 +19,7 @@ public class FieldForMiner {
     public void generate() {
         Random random = new Random();
         boolean t;
-        notMinedCells=0;
+        notMinedCells = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < wight; j++) {
                 t = random.nextInt(100) > 90;
@@ -27,6 +28,7 @@ public class FieldForMiner {
                 field[i][j] = -2;
             }
         }
+        minedCells = height * wight - notMinedCells;
     }
 
     public void checkAround(int x, int y) {//очень страшная, но очень легкая функция
@@ -170,5 +172,9 @@ public class FieldForMiner {
 
     public int[][] getField() {
         return field;
+    }
+
+    public int getMinedCells() {
+        return minedCells;
     }
 }
