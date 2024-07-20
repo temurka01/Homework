@@ -7,6 +7,7 @@ public class FieldForMiner {
     private final int wight;
     private int notMinedCells;
     private int minedCells;
+    private int chance = 90;
 
     public FieldForMiner(int height, int wight) {
         this.height = height;
@@ -20,21 +21,26 @@ public class FieldForMiner {
         Random random = new Random();
         boolean t;
         notMinedCells = 0;
+        minedCells = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < wight; j++) {
-                t = random.nextInt(100) > 90;
+                t = random.nextInt(100) > chance;
                 minesLocation[i][j] = t;
-                if (!t) notMinedCells++;
-                field[i][j] = -2;
+                if (!t) {
+                    notMinedCells++;
+                    field[i][j] = -2;
+                } else {
+                    field[i][j] = -3;
+                    minedCells++;
+                }
             }
         }
-        minedCells = height * wight - notMinedCells;
     }
 
     public void checkAround(int x, int y) {//очень страшная, но очень легкая функция
         int countOfMines = 0;
-        if (x == 0 || y == 0) {
-            if (x == 0 && y == 0) {
+        if (x == 0 || y == 0) { //левая и верхняя грани
+            if (x == 0 && y == 0) { //левый верхний угол
                 if (minesLocation[0][1]) countOfMines++;
                 if (minesLocation[1][0]) countOfMines++;
                 if (minesLocation[1][1]) countOfMines++;
@@ -44,7 +50,7 @@ public class FieldForMiner {
                     if (field[1][0] == -2) checkAround(1, 0);
                     if (field[1][1] == -2) checkAround(1, 1);
                 }
-            } else if (x == 0 && y == wight - 1) {
+            } else if (x == 0 && y == wight - 1) { // правый верхний угол
                 if (minesLocation[0][wight - 2]) countOfMines++;
                 if (minesLocation[1][wight - 1]) countOfMines++;
                 if (minesLocation[1][wight - 2]) countOfMines++;
@@ -54,7 +60,7 @@ public class FieldForMiner {
                     if (field[1][wight - 1] == -2) checkAround(1, wight - 1);
                     if (field[1][wight - 2] == -2) checkAround(1, wight - 2);
                 }
-            } else if (x == height - 1 && y == 0) {
+            } else if (x == height - 1 && y == 0) { // левый нижний угол
                 if (minesLocation[height - 2][0]) countOfMines++;
                 if (minesLocation[height - 1][1]) countOfMines++;
                 if (minesLocation[height - 2][1]) countOfMines++;
@@ -64,7 +70,7 @@ public class FieldForMiner {
                     if (field[height - 1][1] == -2) checkAround(height - 1, 1);
                     if (field[height - 2][1] == -2) checkAround(height - 2, 1);
                 }
-            } else if (x == 0) {
+            } else if (x == 0) { // остальные элементы левой грани
                 if (minesLocation[0][y - 1]) countOfMines++;
                 if (minesLocation[0][y + 1]) countOfMines++;
                 if (minesLocation[1][y - 1]) countOfMines++;
@@ -78,7 +84,7 @@ public class FieldForMiner {
                     if (field[1][y] == -2) checkAround(1, y);
                     if (field[1][y + 1] == -2) checkAround(1, y + 1);
                 }
-            } else {
+            } else { // остальные элементы верхней грани
                 if (minesLocation[x - 1][0]) countOfMines++;
                 if (minesLocation[x + 1][0]) countOfMines++;
                 if (minesLocation[x - 1][1]) countOfMines++;
@@ -93,7 +99,7 @@ public class FieldForMiner {
                     if (field[x + 1][1] == -2) checkAround(x + 1, 1);
                 }
             }
-        } else if (x == height - 1 || y == wight - 1) {
+        } else if (x == height - 1 || y == wight - 1) { // правый нижний угол
             if (x == height - 1 && y == wight - 1) {
                 if (minesLocation[height - 1][wight - 2]) countOfMines++;
                 if (minesLocation[height - 2][wight - 2]) countOfMines++;
@@ -104,7 +110,7 @@ public class FieldForMiner {
                     if (field[height - 2][wight - 2] == -2) checkAround(height - 2, wight - 2);
                     if (field[height - 2][wight - 1] == -2) checkAround(height - 2, wight - 1);
                 }
-            } else if (y == wight - 1) {
+            } else if (y == wight - 1) { // остальные элементы правой грани
                 if (minesLocation[x - 1][wight - 1]) countOfMines++;
                 if (minesLocation[x - 1][wight - 2]) countOfMines++;
                 if (minesLocation[x][wight - 2]) countOfMines++;
@@ -118,7 +124,7 @@ public class FieldForMiner {
                     if (field[x + 1][wight - 2] == -2) checkAround(x + 1, wight - 2);
                     if (field[x + 1][wight - 1] == -2) checkAround(x + 1, wight - 1);
                 }
-            } else {
+            } else { // остальные элементы нижней грани
                 if (minesLocation[height - 1][y - 1]) countOfMines++;
                 if (minesLocation[height - 2][y - 1]) countOfMines++;
                 if (minesLocation[height - 2][y]) countOfMines++;
@@ -133,7 +139,7 @@ public class FieldForMiner {
                     if (field[height - 1][y + 1] == -2) checkAround(height - 1, y + 1);
                 }
             }
-        } else {
+        } else { // центральные элементы
             if (minesLocation[x - 1][y - 1]) countOfMines++;
             if (minesLocation[x - 1][y]) countOfMines++;
             if (minesLocation[x - 1][y + 1]) countOfMines++;
@@ -166,9 +172,6 @@ public class FieldForMiner {
         return count == notMinedCells;
     }
 
-    public boolean[][] getMinesLocation() {
-        return minesLocation;
-    }
 
     public int[][] getField() {
         return field;
@@ -176,5 +179,9 @@ public class FieldForMiner {
 
     public int getMinedCells() {
         return minedCells;
+    }
+
+    public void setChance(int chance) {
+        this.chance = chance;
     }
 }
