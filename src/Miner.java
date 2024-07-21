@@ -4,13 +4,14 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 
 public class Miner extends JComponent {
-    FieldForMiner field;
+    private static final FieldForMiner field = new FieldForMiner();
     private static int FIELD_WIGHT;
     private static int FIELD_HEIGHT;
     private static boolean ifMenu = true;
     private static boolean ifLevelChoose = false;
+    private static boolean ifGameOver = false;
     private static int countOfMines = 0;
-    private int костыль = 0;
+
 
     public Miner() {
         JFrame window = new JFrame("Miner");
@@ -41,6 +42,7 @@ public class Miner extends JComponent {
             drawGrid(graphics);
             drawField(graphics);
             drawStats(graphics);
+            drawExitAndRestartButton(graphics);
         }
     }
 
@@ -55,20 +57,11 @@ public class Miner extends JComponent {
                 int heightAdd = (Settings.WINDOW_HEIGHT - 400) / 2;
                 if (x > (95 + wightAdd) && x < (305 + wightAdd)) {
                     if (y > (120 + heightAdd) && y < (160 + heightAdd)) {
-                        костыль = 90;
-                        ifMenu = false;
-                        ifLevelChoose = true;
-                        repaint();
+                        toLevelChoose(Settings.DIFFICULTY_EASY);
                     } else if (y > (200 + heightAdd) && y < (240 + heightAdd)) {
-                        костыль = 86;
-                        ifMenu = false;
-                        ifLevelChoose = true;
-                        repaint();
+                        toLevelChoose(Settings.DIFFICULTY_MEDIUM);
                     } else if (y > (280 + heightAdd) && y < (320 + heightAdd)) {
-                        костыль = 83;
-                        ifMenu = false;
-                        ifLevelChoose = true;
-                        repaint();
+                        toLevelChoose(Settings.DIFFICULTY_HARD);
                     }
                 }
             } else if (ifLevelChoose) { // в меню выбора размера поля
@@ -76,41 +69,43 @@ public class Miner extends JComponent {
                 int heightAdd = (Settings.WINDOW_HEIGHT - 440) / 2;
                 if (x > wightAdd && x < (200 + wightAdd)) {
                     if (y > (80 + heightAdd) && y < (120 + heightAdd)) { // 10 x 10
-                        FIELD_WIGHT = 400;
-                        FIELD_HEIGHT = 400;
-                        toLevel();
+                        toLevel(400, 400);
                     } else if (y > (160 + heightAdd) && y < (200 + heightAdd)) { // 12 x 14
-                        FIELD_WIGHT = 480;
-                        FIELD_HEIGHT = 560;
-                        toLevel();
+                        toLevel(480, 560);
                     } else if (y > (240 + heightAdd) && y < (280 + heightAdd)) { // 14 x 16
-                        FIELD_WIGHT = 560;
-                        FIELD_HEIGHT = 640;
-                        toLevel();
+                        toLevel(560, 640);
                     } else if (y > (320 + heightAdd) && y < (360 + heightAdd)) { // 16 x 18
-                        FIELD_WIGHT = 640;
-                        FIELD_HEIGHT = 720;
-                        toLevel();
+                        toLevel(640, 720);
                     } else if (y > (400 + heightAdd) && y < (440 + heightAdd)) { // 18 x 20
-                        FIELD_WIGHT = 720;
-                        FIELD_HEIGHT = 800;
-                        toLevel();
+                        toLevel(720, 800);
                     }
                 }
             } else { //  в игре
-                int i = (y - ((Settings.WINDOW_HEIGHT - FIELD_HEIGHT) / 2)) / Settings.CELL_WIGHT_HEIGHT;
-                int j = (x - ((Settings.WINDOW_WIGHT - FIELD_WIGHT) / 2)) / Settings.CELL_WIGHT_HEIGHT;
-                if (field.getField()[i][j] != -1) {
-                    if (field.getField()[i][j] == -3) {
-                        endOfGame("Взрыв, хотите перезапустить игру?");
-                    } else {
-                        field.checkAround(i, j);
-                        if (field.checkForWin()) {
-                            repaint();
-                            endOfGame("Победа, хотите перезапустить игру?");
-                            setWinsCount(getWinsCount() + 1);
-                        }
+                if (y > (((Settings.WINDOW_HEIGHT - FIELD_HEIGHT) / 2) - 60) && y < ((Settings.WINDOW_HEIGHT - FIELD_HEIGHT) / 2)) {
+                    if(x > (Settings.WINDOW_WIGHT - ((Settings.WINDOW_WIGHT - FIELD_WIGHT) / 2) - 40) && x < (Settings.WINDOW_WIGHT - (Settings.WINDOW_WIGHT - FIELD_WIGHT) / 2)){
+                        ifGameOver = false;
+                        ifMenu = true;
                         repaint();
+                    } else if(x > (Settings.WINDOW_WIGHT - ((Settings.WINDOW_WIGHT - FIELD_WIGHT) / 2) - 100) && x < ((Settings.WINDOW_WIGHT - (Settings.WINDOW_WIGHT - FIELD_WIGHT) / 2) - 60)){
+                        field.restart();
+                        ifGameOver = false;
+                        repaint();
+                    }
+                } else {
+                    int i = (y - ((Settings.WINDOW_HEIGHT - FIELD_HEIGHT) / 2)) / Settings.CELL_WIGHT_HEIGHT;
+                    int j = (x - ((Settings.WINDOW_WIGHT - FIELD_WIGHT) / 2)) / Settings.CELL_WIGHT_HEIGHT;
+                    if (field.getField()[i][j] != -1) {
+                        if (field.getField()[i][j] == -3) {
+                            endOfGame("Взрыв, хотите перезапустить игру?");
+                        } else {
+                            field.checkAround(i, j);
+                            if (field.checkForWin()) {
+                                repaint();
+                                setWinsCount(getWinsCount() + 1);
+                                endOfGame("Победа, хотите перезапустить игру?");
+                            }
+                            repaint();
+                        }
                     }
                 }
             }
@@ -176,6 +171,9 @@ public class Miner extends JComponent {
                 } else if (field.getField()[i][j] == 0) {
                     graphics.setColor(Color.GRAY);
                     graphics.fillRect(j * Settings.CELL_WIGHT_HEIGHT + 2 + wightAdd, i * Settings.CELL_WIGHT_HEIGHT + 2 + heightAdd, Settings.CELL_WIGHT_HEIGHT - 3, Settings.CELL_WIGHT_HEIGHT - 3);
+                } else if (field.getField()[i][j] == -3 && ifGameOver) {
+                    graphics.setColor(Color.BLACK);
+                    graphics.fillOval((int) (j + 0.5) * Settings.CELL_WIGHT_HEIGHT + 2 + wightAdd, (int) (i + 0.5) * Settings.CELL_WIGHT_HEIGHT + 2 + heightAdd, 36, 36);
                 }
             }
         }
@@ -185,8 +183,26 @@ public class Miner extends JComponent {
         int x = (Settings.WINDOW_WIGHT - FIELD_WIGHT) / 2;
         int y = ((Settings.WINDOW_HEIGHT - FIELD_HEIGHT) / 2) - 60;
         graphics.setColor(Color.BLACK);
-        graphics.drawRect(x, y, 300, 40);
+        graphics.drawRect(x, y, 260, 40);
         graphics.drawString("Мин осталось: " + (field.getMinedCells() - countOfMines), x + 5, y + 35);
+    }
+
+    private void drawExitAndRestartButton(Graphics graphics) {
+        graphics.setColor(Color.BLACK);
+        int wightAdd = Settings.WINDOW_WIGHT - ((Settings.WINDOW_WIGHT - FIELD_WIGHT) / 2);
+        int heightAdd = (Settings.WINDOW_HEIGHT - FIELD_HEIGHT) / 2;
+
+        graphics.drawRect(wightAdd - 40, heightAdd - 60, 40, 40); // exit
+        graphics.drawLine(wightAdd - 36,heightAdd - 56,wightAdd - 4,heightAdd - 24);
+        graphics.drawLine(wightAdd - 36,heightAdd - 24,wightAdd - 4,heightAdd - 56);
+
+        graphics.drawRect(wightAdd - 100, heightAdd - 60, 40, 40); // restart
+        graphics.drawOval(wightAdd - 96, heightAdd - 56, 32, 32);
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(wightAdd - 92, heightAdd - 56, 24, 20);
+        graphics.setColor(Color.BLACK);
+        graphics.drawLine(wightAdd - 96, heightAdd - 52, wightAdd - 90, heightAdd - 52);
+        graphics.drawLine(wightAdd - 90, heightAdd - 52, wightAdd - 90, heightAdd - 46);
     }
 
     private void drawLevelChoose(Graphics graphics) {
@@ -252,26 +268,36 @@ public class Miner extends JComponent {
     }
 
     private void endOfGame(String str) { // для разгрузки processMouseEvent
-        int result = JOptionPane.showConfirmDialog(null, str);
-        countOfMines = 0;
+        int result = JOptionPane.showOptionDialog(null, str, "  ", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, Settings.options, Settings.options[0]);
+
         switch (result) {
             case JOptionPane.YES_OPTION:
-                field.generate();
+                ifMenu = true;
+                countOfMines = 0;
                 break;
             case JOptionPane.NO_OPTION:
-            case JOptionPane.CANCEL_OPTION:
+                field.generate(FIELD_HEIGHT / Settings.CELL_WIGHT_HEIGHT, FIELD_WIGHT / Settings.CELL_WIGHT_HEIGHT);
+                countOfMines = 0;
+                break;
             case JOptionPane.CLOSED_OPTION:
-                ifMenu = true;
+                ifGameOver = true;
                 break;
         }
         repaint();
     }
 
-    private void toLevel() { // для разгрузки processMouseEvent
-        field = new FieldForMiner(FIELD_HEIGHT / Settings.CELL_WIGHT_HEIGHT, FIELD_WIGHT / Settings.CELL_WIGHT_HEIGHT);
-        field.setChance(костыль);
-        field.generate();
+    private void toLevel(int wight, int height) { // для разгрузки processMouseEvent
+        FIELD_WIGHT = wight;
+        FIELD_HEIGHT = height;
+        field.generate(FIELD_HEIGHT / Settings.CELL_WIGHT_HEIGHT, FIELD_WIGHT / Settings.CELL_WIGHT_HEIGHT);
         ifLevelChoose = false;
+        repaint();
+    }
+
+    private void toLevelChoose(int probability) { // для разгрузки processMouseEvent
+        field.setChance(probability);
+        ifMenu = false;
+        ifLevelChoose = true;
         repaint();
     }
 

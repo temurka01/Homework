@@ -1,23 +1,19 @@
 import java.util.Random;
 
 public class FieldForMiner {
-    private final boolean[][] minesLocation;
-    private final int[][] field;
-    private final int height;
-    private final int wight;
+    private boolean[][] minesLocation;
+    private int[][] field;
+    private int height;
+    private int wight;
     private int notMinedCells;
     private int minedCells;
-    private int chance = 90;
+    private int chance;
 
-    public FieldForMiner(int height, int wight) {
+    public void generate(int height, int wight ) {
         this.height = height;
         this.wight = wight;
-        this.minesLocation = new boolean[height][wight];
+        this.minesLocation=new boolean[height][wight];
         this.field = new int[height][wight];
-        this.generate();
-    }
-
-    public void generate() {
         Random random = new Random();
         boolean t;
         notMinedCells = 0;
@@ -37,6 +33,17 @@ public class FieldForMiner {
         }
     }
 
+    public void restart() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < wight; j++) {
+                if (!minesLocation[i][j]) {
+                    field[i][j] = -2;
+                } else {
+                    field[i][j] = -3;
+                }
+            }
+        }
+    }
     public void checkAround(int x, int y) {//очень страшная, но очень легкая функция
         int countOfMines = 0;
         if (x == 0 || y == 0) { //левая и верхняя грани
@@ -172,7 +179,6 @@ public class FieldForMiner {
         return count == notMinedCells;
     }
 
-
     public int[][] getField() {
         return field;
     }
@@ -184,4 +190,5 @@ public class FieldForMiner {
     public void setChance(int chance) {
         this.chance = chance;
     }
+
 }
